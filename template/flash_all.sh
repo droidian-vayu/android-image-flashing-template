@@ -8,4 +8,4 @@ fastboot flash userdata data/userdata.img
 
 fastboot reboot
 
-info "Flashing completed"
+echo "Flashing completed"

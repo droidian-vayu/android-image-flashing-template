@@ -28,8 +28,6 @@
 
 set -e
 
-source data/device-configuration.conf
-
 info() {
 	echo "I: ${@}"
 }
@@ -44,24 +42,6 @@ error() {
 }
 
 ########################################################################
-
-check_device() {
-	[ -n "${EXTRA_INFO_DEVICE_IDS}" ] || error "No supported device IDs found"
-
-	for device in $(fastboot devices | awk '{ print $1 }'); do
-		product=$(fastboot -s ${device} getvar product 2>&1 | grep "product:" | awk '{ print tolower($2) }')
-
-		for supported in ${EXTRA_INFO_DEVICE_IDS}; do
-			if [ "${product}" == "$(echo ${supported} | awk '{ print tolower($1) }')" ]; then
-				echo ${device}
-				return 0
-			fi
-		done
-	done
-
-	return 1
-}
-
 
 flash() {
 	DEVICE="${1}"
@@ -85,19 +65,6 @@ flash_if_exists() {
 }
 
 ########################################################################
-
-for try in 1 2 3 4 5; do
-	info "Waiting for a suitable device"
-	DEVICE=$(check_device) || true
-
-	if [ -z "${DEVICE}" ]; then
-		sleep 10
-	else
-		break
-	fi
-done
-
-[ -z "${DEVICE}" ] && error "No supported device found"
 
 if [ "${DEVICE_IS_AB}" == "yes" ]; then
 	flash ${DEVICE} data/boot.img boot_a boot_b

@@ -70,11 +70,13 @@ if [ "${DEVICE_IS_AB}" == "yes" ]; then
 	flash ${DEVICE} data/boot.img boot_a boot_b
 	flash_if_exists ${DEVICE} data/dtbo.img dtbo_a dtbo_b
 	flash_if_exists ${DEVICE} data/vbmeta.img vbmeta_a vbmeta_b
+	flash_if_exists ${DEVICE} data/vendor.img vendor
 else
 	# Both on AONLY and LEGACY
 	flash ${DEVICE} data/boot.img boot
 	flash_if_exists ${DEVICE} data/dtbo.img dtbo
 	flash_if_exists ${DEVICE} data/vbmeta.img vbmeta
+	flash_if_exists ${DEVICE} data/vendor.img vendor
 fi
 
 flash ${DEVICE} data/userdata.img userdata

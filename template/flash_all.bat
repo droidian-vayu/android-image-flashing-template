@@ -1,3 +1,5 @@
+echo WARNING : Your data will be deleted
+pause
 fastboot flash boot data/boot.img
 fastboot flash dtbo data/dtbo.img
 fastboot flash vbmeta data/vbmeta.img
